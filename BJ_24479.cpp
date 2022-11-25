@@ -1,46 +1,48 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
-int num;
+int num = 1;
 
-void dfs(int* V, int* E, int R, int size) {
+void dfs(int** E, int R,int size) {
 
-
-	V[R] = ++num; 
-	cout << V[R]<<endl;
+	E[R][0] = num++;
 
 	for (int i = 1; i < size; i++) {
-			if (E[R*size +i] == 1) {
-				if (V[i] == 0) dfs(V, E, i,size);
+		if (E[R][i] == 1) {
+			if (E[i][0] == 0) dfs( E, i, size);
 		}
 	}
-	
+
 }
 
 int main() {
 
-	int Vnum, Enum, R,i;
+	int Vnum, Enum, R;
 	cin >> Vnum >> Enum >> R;
-	Vnum ++;
-	Enum ++;
-	int* V = new int[Vnum];
-	int* E = new int[Vnum* Vnum];
-	
-	for (i = 0; i < Vnum; i++) V[i] = 0;
-		
+	Vnum += 1;
+	Enum += 1;
 
-	for (i = 0; i < Vnum * Vnum; i++) E[i] = 0;
-
+	int** E = new int* [Vnum];
+	for (int i = 0; i < Vnum; i++) {
+		E[i] = new int[Vnum];
+		for (int j = 0; j < Vnum; j++) {
+			E[i][j] = 0;
+		}
+	}
 
 	int a, b;
 
-	for (i = 1; i < Enum; i++) {
+	for (int i = 1; i < Enum; i++) {
 		cin >> a >> b;
-		E[a* Vnum+b] = 1;
-		E[b * Vnum+a] = 1;
+		E[a][b] = 1;
+		E[b][a] = 1;
 	}
 
-	dfs(V, E, R, Vnum);
+	dfs(E, R, Vnum);
 
+	for (int i = 1; i < Vnum; i++) {
+		cout << E[i][0] << endl;
+	}
 }
