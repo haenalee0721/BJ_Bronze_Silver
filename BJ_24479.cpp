@@ -1,54 +1,46 @@
 #include <iostream>
-#include <stack>
-#include <array>
 
 using namespace std;
 
-stack<int> S;
+int num;
 
-void dfs(int* V, int** E, int R) {
+void dfs(int* V, int* E, int R, int size) {
 
-	//int* V = new int[Vnum];
 
-	V[R] = 1;
-	cout << R << endl;
-	int size = (_msize(V) / sizeof(*V));
+	V[R] = ++num; 
+	cout << V[R]<<endl;
+
 	for (int i = 1; i < size; i++) {
-			if (E[R][i] == 1) {
-				if (V[i] != 0) dfs(V, E, i);
+			if (E[R*size +i] == 1) {
+				if (V[i] == 0) dfs(V, E, i,size);
 		}
 	}
 	
-
 }
 
 int main() {
 
-	int Vnum, Enum, R;
+	int Vnum, Enum, R,i;
 	cin >> Vnum >> Enum >> R;
-	Vnum += 1;
-	Enum += 1;
+	Vnum ++;
+	Enum ++;
 	int* V = new int[Vnum];
-	int** E = new int*[Vnum];
-	for (int i = 0; i < Vnum; i++) {
-		E[i] = new int[Vnum];
-		V[i] = 0;
-	}
-
-	for (int i = 0; i < Vnum; i++) {
-		for (int j = 0; j < Vnum; j++) {
-			E[i][j] = 0;
-		}
-	}
+	int* E = new int[Vnum* Vnum];
 	
+	for (i = 0; i < Vnum; i++) V[i] = 0;
+		
+
+	for (i = 0; i < Vnum * Vnum; i++) E[i] = 0;
+
 
 	int a, b;
 
-	for (int i = 1; i < Enum; i++) {
+	for (i = 1; i < Enum; i++) {
 		cin >> a >> b;
-		E[a][b] = 1;
-		E[b][a] = 1;
+		E[a* Vnum+b] = 1;
+		E[b * Vnum+a] = 1;
 	}
 
-	dfs(V, E, R);
+	dfs(V, E, R, Vnum);
+
 }
