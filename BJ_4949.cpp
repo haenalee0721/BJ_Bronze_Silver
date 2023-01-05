@@ -6,49 +6,45 @@ using namespace std;
 
 int main() {
 
-	char charInput[100];
-	
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+
 
 	while (1) {
-		cin.getline(charInput, 100);
+		string charInput;
+		getline(cin, charInput);
+		if (charInput == ".") { return 0; }//Á¾·á
 		stack<char> s;
-		if (charInput[0] == '.') { return 0; }
-		for (int i = 0; i < 100; i++) {
-			if (charInput[i] == '.') {
-				cout << "yes";
-				break;
-			}
-			else if (charInput[i] == '[' || charInput[i] == '(') {
-				s.push(charInput[i]);
-			}
-			else if (charInput[i] == ']') {
+		
+		for (auto c: charInput) {
+			if (c == '.') {
 				if (s.empty()) {
-					cout << "no" << endl;
+					cout << "yes\n";
 					break;
 				}
-				if (s.top() == '[') {
+				else {
+					cout << "no\n";
+					break;
+				}
+
+			}
+			else if (c == '[' || c == '(') {
+				s.push(c);
+			}
+			else if (c== ']'|| c== ')') {
+				if (s.empty()) {
+					cout << "no\n";
+					break;
+				}
+				if ((s.top() == '['&&c == ']')||(s.top() == '(' && c == ')')) {
 					s.pop();
 				}
 				else {
-					cout << "no" << endl;
-					break;
-				}
-			}
-			else if (charInput[i] == ')') {
-				if (s.empty()) {
-					cout << "no" << endl;
-					break;
-				}
-				if (s.top() == '(') {
-					s.pop();
-				}
-				else {
-					cout << "no" << endl;
+					cout << "no\n";
 					break;
 				}
 			}
 		}
 	}
-
 		return 0;
 }
