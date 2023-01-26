@@ -106,7 +106,7 @@ int main() {
 
 	//최단거리 찾기
 
-	int min = 100;
+	int min = 100000;
 	for (int i = 0; i < R; i++) {  //왼쪽 오른쪽 가장자리 확인
 		if (min > check[i][0]&&check[i][0]!=-1) min = check[i][0];
 		if (min > check[i][C - 1] && check[i][C - 1] != -1) min = check[i][C - 1];
@@ -116,7 +116,7 @@ int main() {
 		if (min >check[R-1][i] && check[R - 1][i] != -1) min = check[R - 1][i];
 	}
 
-	if(min ==100||min==-1){
+	if(min == 100000 ||min==-1){
 		cout << "IMPOSSIBLE";
 	}else cout << min+1;
 }
